@@ -1,0 +1,800 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['Ação'] }}",
+                    "rightValue": "Registrar Despesa",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4ae2cf16-2b50-4365-8801-1f5647865f72"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Despesa"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c2094026-72cb-4cdb-8b74-ae385e6516fa",
+                    "leftValue": "={{ $json['Ação'] }}",
+                    "rightValue": "Registrar Receita",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Receita"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8220aa2d-7abe-47ec-8c0a-c347f4544fe5",
+                    "leftValue": "={{ $json['Ação'] }}",
+                    "rightValue": "Consultar Saldo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Consultar Saldo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "854ec855-9ab3-4ce2-9a9c-afffa4062010",
+      "name": "Rota por Ação"
+    },
+    {
+      "parameters": {
+        "formTitle": "Finanças",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Escolha uma Opção",
+              "fieldType": "dropdown",
+              "fieldName": "Usuário",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Bege"
+                  },
+                  {
+                    "option": "Azul"
+                  },
+                  {
+                    "option": "Verde"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Ação",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Registrar Despesa"
+                  },
+                  {
+                    "option": "Registrar Receita"
+                  },
+                  {
+                    "option": "Consultar Saldo"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        16
+      ],
+      "id": "499288f7-389d-448a-9880-c2737db3ed96",
+      "name": "Primeira Etapa - Formulário",
+      "webhookId": "04ea7931-ec7b-45fb-95ca-aca9d4b5e65d"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Valor",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Categoria",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Mercado"
+                  },
+                  {
+                    "option": "Farmácia"
+                  },
+                  {
+                    "option": "Padaria"
+                  },
+                  {
+                    "option": "Combustível"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Descrição",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Data",
+              "fieldType": "date",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "formTitle": "Despesa",
+          "formDescription": "Informe o valor a registrar"
+        }
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        400,
+        -144
+      ],
+      "id": "c2e94a7b-765a-411b-a116-2f8c7d533617",
+      "name": "Formulário Despesa",
+      "webhookId": "e0bb136c-1fc6-4fd2-81b3-fc55053993bb"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Movimentação registrada com sucesso!  Obrigado!",
+        "completionMessage": "={{ $json.Tipo }} {{ $('Formulário Despesa').item.json.Valor }} foi registrado com sucesso.\n\n<p>\n  <a href=\"https://fernandafc.app.n8n.cloud/form/04ea7931-ec7b-45fb-95ca-aca9d4b5e65d\">\n    Registrar outra movimentação\n  </a>\n</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        832,
+        -144
+      ],
+      "id": "99829b00-d4af-44ce-a0d3-c74988b222bd",
+      "name": "Despesas",
+      "webhookId": "a0ca50b9-b999-47dd-b11a-8ecf827c57d5"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Valor",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Produto",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Poupança"
+                  },
+                  {
+                    "option": "Ações da Bolsa"
+                  },
+                  {
+                    "option": "Tesouro Direto"
+                  },
+                  {
+                    "option": "Previdência Privada"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Data",
+              "fieldType": "date",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "formTitle": "Receita",
+          "formDescription": "Informe o valor a registrar"
+        }
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        400,
+        16
+      ],
+      "id": "87e12668-ea62-40af-83be-992b83e02a34",
+      "name": "Formulário Receita",
+      "webhookId": "e0bb136c-1fc6-4fd2-81b3-fc55053993bb"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Movimentação registrada com sucesso!  Obrigado!",
+        "completionMessage": "={{ $json.Tipo }} {{ $json.valor }} foi registrado com sucesso.\n\n<p>\n  <a href=\"https://fernandafc.app.n8n.cloud/form/04ea7931-ec7b-45fb-95ca-aca9d4b5e65d\">\n    Registrar outra movimentação\n  </a>\n</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        832,
+        16
+      ],
+      "id": "dd238deb-e540-4748-b0f2-897b8b7c1658",
+      "name": "Receita",
+      "webhookId": "a0ca50b9-b999-47dd-b11a-8ecf827c57d5"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "yIrmDbgNf5ljjbye",
+          "mode": "list",
+          "cachedResultName": "Financas",
+          "cachedResultUrl": "/projects/aDNlTPJlR11O4UAn/datatables/yIrmDbgNf5ljjbye"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "valor": "={{ $json.Valor }}",
+            "Tipo": "=Despesa",
+            "Categoria": "={{ $json.Categoria }}",
+            "Descricao": "={{ $json['Descrição'] }}",
+            "registrado_em": "={{ $json.Data }}",
+            "Usuario": "={{ $('Primeira Etapa - Formulário').item.json['Usuário'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Usuario",
+              "displayName": "Usuario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tipo",
+              "displayName": "Tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Categoria",
+              "displayName": "Categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Descricao",
+              "displayName": "Descricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "registrado_em",
+              "displayName": "registrado_em",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        608,
+        -144
+      ],
+      "id": "7fae40c5-da70-4032-94bb-55a7c1d610c0",
+      "name": "Tabela Despesa"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "yIrmDbgNf5ljjbye",
+          "mode": "list",
+          "cachedResultName": "Financas",
+          "cachedResultUrl": "/projects/aDNlTPJlR11O4UAn/datatables/yIrmDbgNf5ljjbye"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "valor": "={{ $json.Valor }}",
+            "Tipo": "=Receita",
+            "Categoria": "={{ $json.Produto }}",
+            "Descricao": "=-",
+            "registrado_em": "={{ $json.Data }}",
+            "Usuario": "={{ $('Primeira Etapa - Formulário').item.json['Usuário'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Usuario",
+              "displayName": "Usuario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tipo",
+              "displayName": "Tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Categoria",
+              "displayName": "Categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Descricao",
+              "displayName": "Descricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "registrado_em",
+              "displayName": "registrado_em",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        608,
+        16
+      ],
+      "id": "035c58d5-1631-4ab7-9bb1-d4fd69c51fc6",
+      "name": "Tabela Receita"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "yIrmDbgNf5ljjbye",
+          "mode": "list",
+          "cachedResultName": "Financas",
+          "cachedResultUrl": "/projects/aDNlTPJlR11O4UAn/datatables/yIrmDbgNf5ljjbye"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "Usuario",
+              "keyValue": "={{ $json['Usuário'] }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        192
+      ],
+      "id": "9805a6dc-802c-4756-9e08-8ad256cd1867",
+      "name": "Buscar Valores",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().filter(i => Object.keys(i.json).length > 0);\nlet receita = 0;\nlet despesa = 0;\n\nfor (const i of rows) {\n  const valor = Number(i.json.valor) || 0;\n  const tipo = String(i.json.Tipo || '').toLowerCase();\n  if (tipo === 'receita') {\n    receita += valor;\n  } else if (tipo === 'despesa') {\n    despesa += valor;\n  }\n}\nconst saldo = receita - despesa;\nreturn [{ json: { receita, despesa, saldo, quantidade: rows.length } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        192
+      ],
+      "id": "612f12b1-e903-4693-aefc-9ad36b4e5a7f",
+      "name": "Calcular Saldo"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldType": "html",
+              "html": "<p>Receita: {{ $json.receita }}</p>\n<p>Despesas: {{ $json.despesa }}</p>\n<p>Saldo: {{ $json.saldo }}</p\n\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        816,
+        192
+      ],
+      "id": "7f57ea08-7425-43d8-b349-ddc558faa25a",
+      "name": "Saldo",
+      "webhookId": "7f84cbc2-12ae-4600-89ec-dc8103800340"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldType": "html",
+              "html": "<p>\n  <a href=\"https://fernandafc.app.n8n.cloud/form/04ea7931-ec7b-45fb-95ca-aca9d4b5e65d\">\n    Voltar ao início\n  </a>\n</p>\n\n\n"
+            },
+            {
+              "fieldLabel": "Apagar",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Deseja apagar os dados"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {
+          "buttonLabel": "Finalizar"
+        }
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        1024,
+        192
+      ],
+      "id": "7f51afd9-d7dd-4adf-b42f-272a01d6528f",
+      "name": "Form",
+      "webhookId": "c98d61dd-1624-484b-9967-909ac966bdfe"
+    },
+    {
+      "parameters": {
+        "operation": "deleteRows",
+        "dataTableId": {
+          "__rl": true,
+          "value": "yIrmDbgNf5ljjbye",
+          "mode": "list",
+          "cachedResultName": "Financas",
+          "cachedResultUrl": "/projects/aDNlTPJlR11O4UAn/datatables/yIrmDbgNf5ljjbye"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "Usuario",
+              "keyValue": "={{ $('Primeira Etapa - Formulário').item.json['Usuário'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1472,
+        176
+      ],
+      "id": "fbbe9f26-05be-415e-bddb-5f7402814c5e",
+      "name": "Delete row(s)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "27f874f9-1b9f-44c0-82e2-01000feced99",
+              "leftValue": "={{ $json.Apagar.isNotEmpty()}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1200,
+        192
+      ],
+      "id": "5815f97d-56e7-4224-aec3-edfb13c1f458",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Rota por Ação": {
+      "main": [
+        [
+          {
+            "node": "Formulário Despesa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Formulário Receita",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Buscar Valores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Primeira Etapa - Formulário": {
+      "main": [
+        [
+          {
+            "node": "Rota por Ação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formulário Despesa": {
+      "main": [
+        [
+          {
+            "node": "Tabela Despesa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formulário Receita": {
+      "main": [
+        [
+          {
+            "node": "Tabela Receita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tabela Despesa": {
+      "main": [
+        [
+          {
+            "node": "Despesas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tabela Receita": {
+      "main": [
+        [
+          {
+            "node": "Receita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Valores": {
+      "main": [
+        [
+          {
+            "node": "Calcular Saldo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calcular Saldo": {
+      "main": [
+        [
+          {
+            "node": "Saldo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Saldo": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete row(s)": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Delete row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "926f418a-0b9a-4cad-aae4-1e7850c4fc0c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "47eb7a9892358e39f76c5a8023f25f60adf046c5530a4c86e48dcd754e3a68a3"
+  },
+  "nodeGroups": [],
+  "id": "OPgMMeTFnKKZq0Ei",
+  "tags": []
+}
