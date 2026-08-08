@@ -207,7 +207,6 @@ O workflow utiliza diferentes tipos de nós do n8n para separar responsabilidade
 | Form Trigger | Inicia o fluxo          |
 | Form         | Entrada de dados        |
 | Switch       | Roteamento das ações    |
-| Data Table   | Persistência dos dados  |
 | Code         | Cálculo do saldo        |
 | IF           | Controle da exclusão    |
 | Completion   | Exibição dos resultados |
