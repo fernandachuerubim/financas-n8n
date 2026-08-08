@@ -1,5 +1,7 @@
 # 💰 Controle Financeiro — n8n
 
+<video src="https://gist.github.com/user-attachments/assets/3f621205-96c5-4453-9b28-3cb72c4f7760" controls></video>
+
 Automação de um sistema simples de **controle financeiro pessoal**, desenvolvido utilizando **n8n** como plataforma de automação e gerenciamento do fluxo de dados.
 
 O projeto permite que diferentes usuários registrem receitas e despesas, consultem seu saldo financeiro e excluam seus próprios registros através de uma interface baseada em formulários.
